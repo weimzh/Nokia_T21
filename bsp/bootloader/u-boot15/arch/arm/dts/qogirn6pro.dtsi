@@ -1,0 +1,227 @@
+/*
+ * Spreadtrum Qogirn6Pro board DTS file
+ *
+ * Copyright (C) 2020, Unisoc Inc.
+ *
+ * This file is licensed under a dual GPLv2 or X11 license.
+ */
+
+#include <dt-bindings/clock/sprd,ums9620-clk.h>
+
+/ {
+	#address-cells = <2>;
+	#size-cells = <2>;
+
+	aliases {
+		i2c0 = &i2c0;
+		i2c1 = &i2c1;
+		i2c2 = &i2c2;
+		i2c3 = &i2c3;
+		i2c4 = &i2c4;
+		i2c5 = &i2c5;
+		i2c6 = &i2c6;
+		i2c7 = &i2c7;
+		i2c8 = &i2c8;
+		i2c9 = &i2c9;
+	};
+
+	soc: soc {
+		compatible = "simple-bus";
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		aon {
+			compatible = "simple-bus";
+			#address-cells = <2>;
+			#size-cells = <2>;
+			ranges;
+
+			pwms: pwm@64030000 {
+				compatible = "qogirn6pro-pwm-sprd";
+				reg = <0 0x64030000 0 0x10000>;
+				clock-names = "clk_parent",
+					"clk_pwm0", "clk_pwm0_eb",
+					"clk_pwm1", "clk_pwm1_eb",
+					"clk_pwm2", "clk_pwm2_eb",
+					"clk_pwm3", "clk_pwm3_eb";
+				clocks = <&ext_26m>,
+					<&aonapb_clk CLK_PWM0>,
+					<&aonapb_gate CLK_PWM0_EB>,
+					<&aonapb_clk CLK_PWM1>,
+					<&aonapb_gate CLK_PWM1_EB>,
+					<&aonapb_clk CLK_PWM2>,
+					<&aonapb_gate CLK_PWM2_EB>,
+					<&aonapb_clk CLK_PWM3>,
+					<&aonapb_gate CLK_PWM3_EB>;
+			};
+		};
+
+		ap-ahb {
+			compatible = "simple-bus";
+			#address-cells = <2>;
+			#size-cells = <2>;
+			ranges;
+
+			i2c0: i2c@0x22240000 {
+				compatible = "sprd,qogirn6pro-i2c";
+				reg = <0 0x22240000 0 0x100>;
+				clock-frequency = <400000>;
+				clock-names = "enable", "i2c", "source";
+				clocks = <&apahb_gate CLK_I2C0_EB>,
+					<&ap_clk CLK_AP_I2C0>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c1: i2c@0x22250000 {
+				compatible = "sprd,qogirn6pro-i2c";
+				reg = <0 0x22250000 0 0x100>;
+				clock-frequency = <400000>;
+				clock-names = "enable", "i2c", "source";
+				clocks = <&apahb_gate CLK_I2C1_EB>,
+					<&ap_clk CLK_AP_I2C1>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c2: i2c@0x22260000 {
+				compatible = "sprd,qogirn6pro-i2c";
+				reg = <0 0x22260000 0 0x100>;
+				clock-frequency = <400000>;
+				clock-names = "enable", "i2c", "source";
+				clocks = <&apahb_gate CLK_I2C2_EB>,
+					<&ap_clk CLK_AP_I2C2>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c3: i2c@0x22270000 {
+				compatible = "sprd,qogirn6pro-i2c";
+				reg = <0 0x22270000 0 0x100>;
+				clock-frequency = <400000>;
+				clock-names = "enable", "i2c", "source";
+				clocks = <&apahb_gate CLK_I2C3_EB>,
+					<&ap_clk CLK_AP_I2C3>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c4: i2c@0x22280000 {
+				compatible = "sprd,qogirn6pro-i2c";
+				reg = <0 0x22280000 0 0x100>;
+				clock-frequency = <400000>;
+				clock-names = "enable", "i2c", "source";
+				clocks = <&apahb_gate CLK_I2C4_EB>,
+					<&ap_clk CLK_AP_I2C4>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c5: i2c@0x22290000 {
+				compatible = "sprd,qogirn6pro-i2c";
+				reg = <0 0x22290000 0 0x100>;
+				clock-frequency = <400000>;
+				clock-names = "enable", "i2c", "source";
+				clocks = <&apahb_gate CLK_I2C5_EB>,
+					<&ap_clk CLK_AP_I2C5>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c6: i2c@0x222a0000 {
+				compatible = "sprd,qogirn6pro-i2c";
+				reg = <0 0x222a0000 0 0x100>;
+				clock-frequency = <400000>;
+				clock-names = "enable", "i2c", "source";
+				clocks = <&apahb_gate CLK_I2C6_EB>,
+					<&ap_clk CLK_AP_I2C6>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c7: i2c@0x222b0000 {
+				compatible = "sprd,qogirn6pro-i2c";
+				reg = <0 0x222b0000 0 0x100>;
+				clock-frequency = <400000>;
+				clock-names = "enable", "i2c", "source";
+				clocks = <&apahb_gate CLK_I2C7_EB>,
+					<&ap_clk CLK_AP_I2C7>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c8: i2c@0x222c0000 {
+				compatible = "sprd,qogirn6pro-i2c";
+				reg = <0 0x222c0000 0 0x100>;
+				clock-frequency = <400000>;
+				clock-names = "enable", "i2c", "source";
+				clocks = <&apahb_gate CLK_I2C8_EB>,
+					<&ap_clk CLK_AP_I2C8>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c9: i2c@0x222d0000 {
+				compatible = "sprd,qogirn6pro-i2c";
+				reg = <0 0x222d0000 0 0x100>;
+				clock-frequency = <400000>;
+				clock-names = "enable", "i2c", "source";
+				clocks = <&apahb_gate CLK_I2C9_EB>,
+					<&ap_clk CLK_AP_I2C9>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+		};
+
+	};
+	ext_26m: ext-26m {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <26000000>;
+		clock-output-names = "ext-26m";
+	};
+
+	ext_32k: ext_32k {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <32768>;
+		clock-output-names = "ext-32k";
+	};
+
+	rco_100m: rco-100m {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <100000000>;
+		clock-output-names = "rco-100m";
+	};
+
+	rco_60m: rco-60m {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <60000000>;
+		clock-output-names = "rco-60m";
+	};
+
+	rco_6m: rco-6m {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <6000000>;
+		clock-output-names = "rco-6m";
+	};
+
+	dphy_312m5: dphy-312m5 {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <312500000>;
+		clock-output-names = "dphy-312m5";
+	};
+
+	dphy_416m7: dphy-416m7 {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <416700000>;
+		clock-output-names = "dphy-416m7";
+	};
+};
+

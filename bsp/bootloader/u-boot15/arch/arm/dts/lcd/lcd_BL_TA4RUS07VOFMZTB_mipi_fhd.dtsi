@@ -1,0 +1,123 @@
+/*
+ * BL_TA4RUS07VOFMZTB Truly LCD config dtsi file for spreadtrum
+ *
+ * Copyright (C) 2018, Spreadtrum Communications Inc.
+ *
+ * SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ */
+
+/ { lcds {
+	lcd_BL_TA4RUS07VOFMZTB_truly_mipi_fhd: lcd_BL_TA4RUS07VOFMZTB_truly_mipi_fhd {
+
+		sprd,dsi-work-mode = <1>; /* video burst mode*/
+		sprd,dsi-lane-number = <4>;
+		sprd,dsi-color-format = "rgb888";
+
+		sprd,phy-bit-clock = <946000>;	/* kbps */
+		sprd,phy-escape-clock = <20000>;/* kHz */
+
+		sprd,dpi-clk-div = <6>;
+		sprd,video-lp-cmd-enable = <1>;
+		sprd,hporch-lp-disable = <1>;
+
+		/* panel interface type: 2:MIPI; 3:SPI */
+		sprd,panel-if-type = <2>;
+
+		/*----Id register ----*/
+	//	sprd,lcd-id-register = [DA DB DC];
+	//	sprd,lcd-id-value-len = <1 1 1>;
+	//	sprd,lcd-id-value = [00 80 00];
+		sprd,lcd-id-tokernel = <0xFFFF>;
+
+		/*---Bias Power---*/
+		sprd,power-i2c-bus = <5>;
+		sprd,power-i2c-addr = <0x3E>;
+		/*sprd,power-i2c-speed = <400000>;*/
+		sprd,power-i2c-reg = [00 01 03 FF];
+		sprd,power-i2c-val = [12 12 43 80];
+		sprd,reset-on-sequence = <1 5>, <0 5>, <1 20>;
+		sprd,reset-off-sequence = <0 5>;
+
+		sprd,initial-command = [
+				39 00 00 04 B9 83 10 2E
+				39 00 00 05 D1 37 0C AF 05
+				39 00 00 12 B1 10 FA AF AF 2B 2B A2 44 59 38 38 38 38 22 21 15 00
+				39 00 00 03 D2 2B 2B
+				39 00 00 11 B2 00 B0 47 D0 00 2C 42 2C 00 00 00 00 15 20 57 00  
+				39 00 00 11 B4 88 64 01 01 88 64 68 50 01 8E 01 58 00 FF 00 FF
+				39 00 00 09 BA 70 03 A8 87 F2 00 C0 0D
+				39 00 00 04 BF FC 85 80
+				39 00 00 2C D3 00 00 00 00 3C 04 00 0C 0C 2B 27 22 2F 27 27 04 04 32 10 25 00 25 54 17 F7 07 F7 32 10 10 00 10 00 00 21 38 01 55 21 38 01 55 0F
+				39 00 00 2F E0 00 05 0E 16 1B 30 48 51 58 55 72 7A 83 95 96 A0 AA BC BA 58 5A 5F 65 00 05 0E 16 1B 30 48 51 58 55 72 7A 83 95 96 A0 AA BC BC 5D 66 70 73
+				39 00 00 02 C1 01
+				39 00 00 02 BD 01
+				39 00 00 3B C1 00 04 08 0C 10 14 18 1D 21 25 29 2D 31 35 3A 3E 42 46 4A 4E 56 5E 66 6E 77 7F 87 8F 97 9F A7 AF B7 BE C6 CE D7 DE E5 ED F5 F8 FA FC FE FF 15 BC 42 71 91 BF 00 51 2F 0E 3D 40
+				39 00 00 02 BD 02
+				39 00 00 3B C1 00 04 07 0B 0F 13 17 1B 1E 22 26 2A 2E 31 35 39 3D 41 45 49 50 58 5F 67 6F 76 7E 85 8D 95 9D A4 AC B4 BB C3 CC D4 DB E3 EB EF F1 F3 F5 F6 0E 40 E0 3F E4 9D 27 93 AF 0E F7 F0
+				39 00 00 02 BD 03
+				39 00 00 3B C1 00 03 07 0B 0F 12 16 1A 1E 22 26 2A 2F 33 37 3B 3F 43 47 4B 52 5A 62 6A 72 7A 81 89 91 99 A1 A9 B1 B8 C0 C8 D0 D8 E0 E8 EF F4 F7 F8 FB FC 39 3F FB 05 54 F9 4E 94 36 F9 E3 00
+				39 00 00 02 BD 01
+				39 00 00 05 B1 01 9B 01 31
+				39 00 00 0B CB F4 36 12 16 C0 28 6C 85 3F 04
+				39 00 00 0C D3 01 00 78 00 00 11 10 00 0A 00 01
+				39 00 00 02 BD 02
+				39 00 00 07 B4 4E 00 33 11 33 88
+				39 00 00 04 BF F2 00 02
+				39 00 00 02 BD 00
+				39 00 00 0F C0 23 23 22 11 A2 10 00 80 00 00 08 00 63 63
+				39 00 00 02 C7 30
+				39 00 00 04 D0 07 04 05
+				39 00 00 2D D5 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 27 26 25 24 1A 1A 1B 1B 0B 0A 09 08 07 06 05 04 03 02 01 00 21 20 18 18 18 18
+				39 00 00 2D D6 98 98 98 98 98 98 98 98 98 98 98 98 98 98 98 98 18 18 26 27 20 21 1A 1A 1B 1B 08 09 0A 0B 00 01 02 03 04 05 06 07 24 25 18 18 18 18
+				39 00 00 18 E7 12 63 02 02 53 00 0E 0E 1A 2A 28 75 26 7B 01 01 00 00 00 00 17 00 68
+				39 00 00 02 BD 01
+				39 00 00 08 E7 02 2D 01 92 0D D7 0E
+				39 00 00 02 BD 02
+				39 00 00 1D E7 FF 01 FD 01 00 00 22 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 81 00 02 40
+				39 00 00 0D D8 FF FF FC 3F FF F0 FF FF FC 3F FF F0
+				39 00 00 02 BD 03
+				39 00 00 19 D8 AA AA AA AA AA A0 AA AA AA AA AA A0 FF FF FC 3F FF F0 FF FF FC 3F FF F0
+				39 00 00 02 BD 00
+				39 00 00 09 C8 00 04 04 00 00 82 13 FF
+				39 00 00 02 CC 0E
+				39 00 00 02 E9 CD
+				39 00 00 02 BB 01
+				39 00 00 02 E9 00
+				39 00 00 03 B8 40 00
+				39 00 00 02 BD 01
+				39 00 00 02 B8 15
+				39 00 00 02 BD 00
+				39 00 00 03 E1 00 02
+				39 00 00 04 B9 00 00 00 
+				23 00 00 02 35 00
+				23 78 00 02 11 00
+				23 0A 00 02 29 00 
+			];
+
+		sprd,sleep-in-command = [
+			13 01 00 01 00
+			13 0A 00 01 28
+			13 78 00 01 10
+			/*23 0a 00 02 4F 01*/
+			];
+
+		sprd,sleep-out-command = [
+			13 50 00 01 11
+			13 14 00 01 29
+			];
+
+		display-timings {
+			lcd_BL_TA4RUS07VOFMZTB_fhd_timing0: timing0 {
+				clock-frequency = <157640000>;
+							hactive = <1200>;
+							vactive = <2000>;
+							hback-porch = <16>;
+							hfront-porch = <18>;
+							vback-porch = <38>;
+							vfront-porch = <66>;
+							hsync-len = <10>;
+							vsync-len = <8>;
+			};
+		};
+	};
+};};

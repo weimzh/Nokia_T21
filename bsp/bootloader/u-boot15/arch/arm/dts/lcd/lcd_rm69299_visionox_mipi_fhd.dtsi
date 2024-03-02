@@ -1,0 +1,55 @@
+/ { lcds {
+	lcd_rm69299_visionox_mipi_fhd: lcd_rm69299_visionox_mipi_fhd {
+
+		sprd,dsi-work-mode = <1>;
+		sprd,dsi-lane-number = <4>;
+		sprd,dsi-color-format = "rgb888";
+
+		sprd,phy-bit-clock = <300000>;
+		sprd,phy-escape-clock = <20000>;
+
+		sprd,width-mm = <68>;
+		sprd,height-mm = <121>;
+
+		/*----Id register ----*/
+                sprd,lcd-id-register = [04];
+                sprd,lcd-id-value-len = <3>;
+                sprd,lcd-id-value = [00 80 00];
+                sprd,lcd-id-tokernel = <0x69299>;
+
+		sprd,reset-on-sequence = <1 5>, <0 5>, <1 20>;
+		sprd,reset-off-sequence = <0 20>;
+
+		sprd,initial-command = [
+			23 00 00 02 fe 00
+			23 00 00 02 c2 08
+			23 00 00 02 35 00
+			23 00 00 02 51 ff
+			23 78 00 02 11 00
+			23 0A 00 02 29 00
+			];
+		sprd,sleep-in-command = [
+			13 0A 00 01 28
+			13 78 00 01 10
+			];
+		sprd,sleep-out-command = [
+			13 78 00 01 11
+			13 64 00 01 29
+			];
+
+		display-timings {
+			timing0 {
+				clock-frequency = <64000000>;
+				hactive = <1080>;
+				vactive = <2248>;
+				hback-porch = <40>;
+				hfront-porch = <40>;
+				vback-porch = <60>;
+				vfront-porch = <60>;
+				hsync-len = <20>;
+				vsync-len = <8>;
+			};
+		};
+	};
+};};
+

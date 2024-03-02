@@ -1,0 +1,8 @@
+#
+# ST Microelectronics ST21NFC/ST54 NFC Controller Driver
+#
+config ST21NFC
+	tristate "ST Microelectronics ST21NFC/ST54 NFC Controller Driver"
+	default n
+	help
+		ST Microelectronics ST21NFC Near Field Communication controller support.

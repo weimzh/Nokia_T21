@@ -1,0 +1,332 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Spreadtrum Sharkl3 platform DTS file
+ *
+ * Copyright (C) 2019, Spreadtrum Communications Inc.
+ */
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/clock/sprd,sc9863a-clk.h>
+
+/ {
+	aliases {
+		spi0 = &spi0;
+		spi1 = &spi1;
+		spi2 = &spi2;
+		spi3 = &spi3;
+		spi4 = &adi_bus;
+	};
+
+	soc: soc {
+		compatible = "simple-bus";
+		ranges;
+		ap_ahb_regs: syscon@20e00000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x20e00000 0x10000>;
+		};
+
+		pub_apb_regs: syscon@300e0000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x300e0000 0x10000>;
+		};
+
+		pub_ahb_regs: syscon@300f0000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x300f0000 0x10000>;
+		};
+
+		aon_intc_regs: syscon@40200000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x40200000 0x10000>;
+		};
+
+		pmu_apb_regs: syscon@402b0000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x402b0000 0x10000>;
+		};
+
+		aon_apb_regs: syscon@402e0000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x402e0000 0x10000>;
+		};
+
+		anlg_phy_g1_regs: syscon@40350000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x40350000 0x3000>;
+		};
+
+		anlg_phy_g2_regs: syscon@40353000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x40353000 0x6000>;
+		};
+
+		anlg_phy_g4_regs: syscon@40359000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x40359000 0x3000>;
+		};
+
+		anlg_phy_g5_regs: syscon@4035c000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x4035c000 0x3000>;
+		};
+
+		anlg_phy_g7_regs: syscon@40363000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x40363000 0x3000>;
+		};
+
+		anlg_wrap_wcn_regs: syscon@40366000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x40366000 0x3000>;
+		};
+
+		wcn_regs: syscon@403a0000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x403a0000 0x10000>;
+		};
+
+		mm_ahb_regs: syscon@60800000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x60800000 0x10000>;
+		};
+
+		mm_vsp_ahb_regs: syscon@62000000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x62000000 0x10000>;
+		};
+
+		ap_apb_regs: syscon@71300000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x71300000 0x40000>;
+		};
+
+		ap_intc0_regs: syscon@40500000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x40500000 0x10000>;
+		};
+
+		ap_intc1_regs: syscon@40510000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x40510000 0x10000>;
+		};
+
+		ap_intc2_regs: syscon@40520000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x40520000 0x10000>;
+		};
+
+		ap_intc3_regs: syscon@40530000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x40530000 0x10000>;
+		};
+
+		ap_intc4_regs: syscon@40540000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x40540000 0x10000>;
+		};
+
+		ap_intc5_regs: syscon@40550000 {
+			compatible = "syscon";
+			#syscon-cells = <2>;
+			reg = <0x40550000 0x10000>;
+		};
+		aon {
+			compatible = "simple-bus";
+			#address-cells = <1>;
+			#size-cells = <1>;
+			ranges;
+
+			eic_debounce: gpio@40210000 {
+				compatible = "sprd,sharkl3-eic-debounce", "sprd,pike2-eic-debounce";
+				reg = <0x40210000 0x80>,
+				      <0x40370000 0x80>;
+				gpio-controller;
+				gpio-bank-name = "eic_debounce";
+				#gpio-cells = <2>;
+			};
+
+			ap_efuse: efuse@40240000 {
+				compatible = "sprd,sharkl3-efuse";
+				reg = <0x40240000 0x10000>;
+				clock-names = "enable";
+				clocks = <&aonapb_gate CLK_EFUSE_EB>;
+			};
+
+			ap_gpio: gpio@402c0000 {
+				compatible = "sprd,sharkl3-gpio-plus";
+				reg = <0x402c0000 0x1000>;
+				gpio-controller;
+				gpio-bank-name = "ap_gpio";
+				#gpio-cells = <2>;
+			};
+
+			adi_bus: spi@41800000 {
+				compatible = "sprd,sharkl3-adi";
+				reg = <0x41800000 0x200000>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			aon_dma: dma@40100000 {
+				compatible = "sprd,sharkl3-dma";
+				reg = <0x40100000 0x4000>;
+				#dma-cells = <1>;
+				#dma-channels = <9>;
+				clock-names = "enable";
+				clocks = <&aonapb_gate CLK_AON_DMA_EB>;
+			};
+		};
+
+		ap-apb {
+			compatible = "simple-bus";
+			#address-cells = <1>;
+			#size-cells = <1>;
+			ranges;
+
+			spi0: spi@70a00000{
+				compatible = "sprd,sc9863-spi";
+				reg = <0x70a00000 0x1000>;
+				spi-source-clk = <192000000>;
+				sprd,dma-mode = <0>;
+				sprd,rx-dma = <11>;
+				sprd,tx-dma = <12>;
+				dmas = <&ap_dma 10>, <&ap_dma 11>;
+				dma-names = "rx-chn", "tx-chn";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				status = "disabled";
+			};
+
+			spi1: spi@70b00000{
+				compatible = "sprd,sc9863-spi";
+				reg = <0x70b00000 0x1000>;
+				spi-source-clk = <192000000>;
+				sprd,dma-mode = <0>;
+				sprd,rx-dma = <13>;
+				sprd,tx-dma = <14>;
+				dmas = <&ap_dma 12>, <&ap_dma 13>;
+				dma-names = "rx-chn", "tx-chn";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				status = "disabled";
+			};
+
+			spi2: spi@70c00000{
+				compatible = "sprd,sc9863-spi";
+				reg = <0x70c00000 0x1000>;
+				spi-source-clk = <192000000>;
+				sprd,dma-mode = <0>;
+				sprd,rx-dma = <15>;
+				sprd,tx-dma = <16>;
+				dmas = <&ap_dma 14>, <&ap_dma 15>;
+				dma-names = "rx-chn", "tx-chn";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				status = "disabled";
+			};
+
+			spi3: spi@71400000{
+				compatible = "sprd,sc9863-spi";
+				reg = <0x71400000 0x1000>;
+				spi-source-clk = <192000000>;
+				sprd,dma-mode = <0>;
+				sprd,rx-dma = <27>;
+				sprd,tx-dma = <28>;
+				dmas = <&ap_dma 26>, <&ap_dma 27>;
+				dma-names = "rx-chn", "tx-chn";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				status = "disabled";
+			};
+		};
+
+		ap-ahb {
+			compatible = "simple-bus";
+			#address-cells = <1>;
+			#size-cells = <1>;
+			ranges;
+
+			ap_dma: dma@20100000 {
+				compatible = "sprd,sharkl3-dma";
+				reg = <0x20100000 0x4000>;
+				#dma-cells = <1>;
+				#dma-channels = <28>;
+				clock-names = "enable";
+				clocks = <&apahb_gate CLK_DMA_EB>;
+			};
+		};
+	};
+
+	ext_26m: ext-26m {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <26000000>;
+		clock-output-names = "ext-26m";
+	};
+
+	ext_32k: ext-32k {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <32768>;
+		clock-output-names = "ext-32k";
+	};
+
+	rco_100m: rco-100m {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <100000000>;
+		clock-output-names = "rco-100m";
+	};
+
+	serial@70000000 {
+		compatible = "sprd,sc9863-uart";
+		reg = <0 0x70000000 0 0x100>;
+		clock-names = "enable", "uart", "source";
+		clocks = <&apapb_gate CLK_UART0_EB>,
+		         <&ap_clk CLK_AP_UART0>,
+		         <&ext_26m>;
+		id = <0>;
+	};
+
+	serial@70100000 {
+	         compatible = "sprd,sc9863-uart";
+	         reg = <0 0x70100000 0 0x100>;
+	         clock-names = "enable", "uart", "source";
+	         clocks = <&apapb_gate CLK_UART1_EB>,
+	                  <&ap_clk CLK_AP_UART1>,
+	                  <&ext_26m>;
+	         id = <1>;
+	};
+
+	serial@70200000 {
+	          compatible = "sprd,sc9863-uart";
+	          reg = <0 0x70200000 0 0x100>;
+	          clock-names = "enable", "uart", "source";
+	          clocks = <&apapb_gate CLK_UART2_EB>,
+	                   <&ap_clk CLK_AP_UART2>,
+	                   <&ext_26m>;
+	          id = <2>;
+	};
+
+};

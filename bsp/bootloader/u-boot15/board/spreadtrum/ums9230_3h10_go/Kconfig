@@ -1,0 +1,18 @@
+if TARGET_UMS9230_3H10_GO
+
+config SYS_BOARD
+	default "ums9230_3h10_go"
+
+config SYS_VENDOR
+	default "spreadtrum"
+
+config SYS_SOC
+	default "qogirl6"
+
+config SYS_CONFIG_NAME
+	default "ums9230_3h10_go"
+
+config SYS_TEXT_BASE
+	default 0x9f000000
+
+endif

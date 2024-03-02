@@ -1,0 +1,312 @@
+/*
+ * Spreadtrum sharkl5Pro board DTS file
+ *
+ * Copyright (C) 2019, Spreadtrum Communications Inc.
+ *
+ * This file is licensed under a dual GPLv2 or X11 license.
+ */
+
+#include "include/dt-bindings/soc/sprd,sharkl5pro_aon_apb-regs.h"
+#include "include/dt-bindings/soc/sprd,sharkl5pro_aon_apb-mask.h"
+#include "include/dt-bindings/soc/sprd,sharkl5pro_pmu_apb-regs.h"
+#include "include/dt-bindings/soc/sprd,sharkl5pro_pmu_apb-mask.h"
+#include <dt-bindings/clock/sprd,sharkl5pro-clk.h>
+#include <dt-bindings/gpio/gpio.h>
+
+#define BIT(x) (1 << (x))
+
+/ {
+	#address-cells = <2>;
+	#size-cells = <2>;
+
+	aliases {
+		i2c0 = &i2c0;
+		i2c1 = &i2c1;
+		i2c2 = &i2c2;
+		i2c3 = &i2c3;
+		i2c4 = &i2c4;
+		i2c5 = &aon_i2c0;
+		spi0 = &spi0;
+		spi1 = &spi1;
+		spi2 = &spi2;
+		spi3 = &spi3;
+		spi4 = &adi_bus;
+	};
+
+	soc: soc {
+		compatible = "simple-bus";
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		aon_apb_regs: syscon@327d0000 {
+			compatible = "syscon";
+			reg = <0 0x327d0000 0 0x10000>;
+		};
+
+		pmu_apb_regs: syscon@327e0000 {
+			compatible = "syscon";
+			reg = <0 0x327e0000 0 0x10000>;
+		};
+
+		aon {
+			compatible = "simple-bus";
+			#address-cells = <2>;
+			#size-cells = <2>;
+			ranges;
+
+			eic_debounce: gpio@32000000 {
+				compatible = "sprd,sharkl5pro-eic-debounce",
+					     "sprd,pike2-eic-debounce";
+				reg = <0 0x32020000 0 0x80>,
+				      <0 0x32030000 0 0x80>,
+				      <0 0x32230000 0 0x80>,
+				      <0 0x32270000 0 0x80>;
+				gpio-controller;
+				gpio-bank-name = "eic_debounce";
+				#gpio-cells = <2>;
+			};
+
+			ap_gpio: gpio@32070000 {
+				compatible = "sprd,sharkl5Pro-gpio", "sprd,pike2-gpio";
+				reg = <0 0x32070000 0 0x10000>;
+				gpio-controller;
+				gpio-bank-name = "ap_gpio";
+				#gpio-cells = <2>;
+			};
+
+			aon_i2c0: i2c@32060000 {
+				compatible = "sprd,sharkl5pro-i2c";
+				reg = <0 0x32060000 0 0x1000>;
+				clock-frequency = <100000>;
+				clock-names = "source", "enable", "i2c",
+						"clk_hw_i2c";
+				clocks = <&ext_26m>, <&aonapb_gate CLK_I2C_EB>,
+					<&aon_clk CLK_AON_I2C>;
+				sprd,hw-channels = <5 0x6002>, <7 0x6000>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			ap_efuse: efuse@0x32240000 {
+				compatible = "sprd,sharkl5pro-efuse";
+				reg = <0 0x32240000 0 0x10000>;
+				clock-names = "enable";
+				clocks = <&aonapb_gate CLK_EFUSE_EB>;
+			};
+
+			adi_bus: spi@32100000 {
+				compatible = "sprd,sharkl5-adi", "sprd,sharkl5pro-adi";
+				reg = <0 0x32100000 0 0x100000>;
+				sprd,hw-channels = <21 0x1864>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+		};
+
+		ap-apb {
+			compatible = "simple-bus";
+			#address-cells = <2>;
+			#size-cells = <2>;
+			ranges;
+
+			i2c0: i2c@70300000 {
+				compatible = "sprd,sharkl5pro-i2c";
+				reg = <0 0x70300000 0 0x1000>;
+				clock-frequency = <100000>;
+				clock-names ="enable", "i2c", "source";
+				clocks = <&apapb_gate CLK_I2C0_EB>,
+					<&ap_clk CLK_AP_I2C0>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c1: i2c@70400000 {
+				compatible = "sprd,sharkl5pro-i2c";
+				reg = <0 0x70400000 0 0x1000>;
+				clock-frequency = <100000>;
+				clock-names ="enable", "i2c", "source";
+				clocks = <&apapb_gate CLK_I2C1_EB>,
+					<&ap_clk CLK_AP_I2C1>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c2: i2c@70500000 {
+				compatible = "sprd,sharkl5pro-i2c";
+				reg = <0 0x70500000 0 0x1000>;
+				clock-frequency = <100000>;
+				clock-names ="enable", "i2c", "source";
+				clocks = <&apapb_gate CLK_I2C2_EB>,
+					<&ap_clk CLK_AP_I2C2>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c3: i2c@70600000 {
+				compatible = "sprd,sharkl5pro-i2c";
+				reg = <0 0x70600000 0 0x1000>;
+				clock-frequency = <100000>;
+				clock-names = "i2c", "source", "enable";
+				clocks = <&ap_clk CLK_AP_I2C3>,
+					<&ext_26m>, <&apapb_gate CLK_I2C3_EB>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c4: i2c@70700000 {
+				compatible = "sprd,sharkl5pro-i2c";
+				reg = <0 0x70700000 0 0x1000>;
+				clock-frequency = <100000>;
+				clock-names ="enable", "i2c", "source";
+				clocks = <&apapb_gate CLK_I2C4_EB>,
+					<&ap_clk CLK_AP_I2C4>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			spi0: spi@70800000{
+				compatible = "sprd,ums512-spi",
+						"sprd,sharkl5pro-spi";
+				reg = <0 0x70800000 0 0x1000>;
+                                spi-source-clk = <192000000>;
+				sprd,dma-mode = <0>;
+				sprd,rx-dma = <9>;
+				sprd,tx-dma = <10>;
+				dmas = <&ap_dma 8>, <&ap_dma 9>;
+				dma-names = "rx-chn", "tx-chn";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				status = "disabled";
+			};
+
+			spi1: spi@70900000{
+				compatible = "sprd,ums512-spi",
+						"sprd,sharkl5pro-spi";
+				reg = <0 0x70900000 0 0x1000>;
+				spi-source-clk = <192000000>;
+				sprd,dma-mode = <0>;
+				sprd,rx-dma = <11>;
+				sprd,tx-dma = <12>;
+				dmas = <&ap_dma 10>, <&ap_dma 11>;
+				dma-names = "rx-chn", "tx-chn";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				status = "disabled";
+			};
+
+			spi2: spi@70a00000{
+				compatible = "sprd,ums512-spi",
+						"sprd,sharkl5pro-spi";
+				reg = <0 0x70a00000 0 0x1000>;
+				spi-source-clk = <192000000>;
+				sprd,dma-mode = <0>;
+				sprd,rx-dma = <13>;
+				sprd,tx-dma = <14>;
+				dmas = <&ap_dma 12>, <&ap_dma 13>;
+				dma-names = "rx-chn", "tx-chn";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				status = "disabled";
+			};
+
+			spi3: spi@70b00000{
+				compatible = "sprd,ums512-spi",
+						"sprd,sharkl5pro-spi";
+				reg = <0 0x70b00000 0 0x1000>;
+				spi-source-clk = <192000000>;
+				sprd,dma-mode = <0>;
+				sprd,rx-dma = <15>;
+				sprd,tx-dma = <16>;
+				dmas = <&ap_dma 14>, <&ap_dma 15>;
+				dma-names = "rx-chn", "tx-chn";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				status = "disabled";
+			};
+		};
+
+		ap-ahb {
+			compatible = "simple-bus";
+			#address-cells = <2>;
+			#size-cells = <2>;
+			ranges;
+
+			ap_dma: dma@20000000 {
+				compatible = "sprd,sharkl5-dma", "sprd,sharkl5pro-dma";
+				reg = <0 0x20000000 0 0x4000>;
+				#dma-cells = <1>;
+				#dma-channels = <28>;
+				clock-names = "enable";
+				clocks = <&apahb_gate CLK_DMA_PUB_EB>;
+			};
+		};
+	};
+
+	dspboot {
+		compatible = "dsp-boot";
+		syscons = <&pmu_apb_regs REG_PMU_APB_PD_AUDCP_SYS_CFG MASK_PMU_APB_PD_APCPU_C0_FORCE_SHUTDOWN>,
+			<&pmu_apb_regs REG_PMU_APB_SLEEP_CTRL MASK_PMU_APB_AUDCP_FORCE_DEEP_SLEEP>,
+			<&pmu_apb_regs REG_PMU_APB_PD_AUDCP_AUDDSP_CFG MASK_PMU_APB_PD_AUDCP_AUDDSP_AUTO_SHUTDOWN_EN>,
+			<&aon_apb_regs REG_AON_APB_AUDCP_BOOT_PROT MASK_AON_APB_REG_PROT_VAL>,
+			<&aon_apb_regs REG_AON_APB_AUDCP_DSP_CTRL0 MASK_AON_APB_AUDCP_DSP_BOOT_VECTOR>,
+			<&aon_apb_regs REG_AON_APB_AUDCP_DSP_CTRL1 MASK_AON_APB_AUDCP_DSP_BOOT>,
+			<&pmu_apb_regs REG_PMU_APB_CP_SOFT_RST MASK_PMU_APB_AUDCP_SYS_SOFT_RST>,
+			<&pmu_apb_regs REG_PMU_APB_CP_SOFT_RST MASK_PMU_APB_AUDCP_AUDDSP_SOFT_RST>,
+			<&pmu_apb_regs REG_PMU_APB_SOFT_RST_SEL (MASK_PMU_APB_SOFT_RST_SEL&0x4)>;
+
+		syscon-names = "sysshutdown", "deepsleep", "autoshutdown", "bootprotect", "bootvector", "bootaddress_sel", "sysreset", "corereset", "reset_sel";
+	};
+
+	ext_26m: ext-26m {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <26000000>;
+		clock-output-names = "ext-26m";
+	};
+
+	ext_32k: ext-32k {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <32768>;
+		clock-output-names = "ext-32k";
+	};
+
+	rco_100m: rco-100m {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <100000000>;
+		clock-output-names = "rco-100m";
+	};
+	
+	serial@70000000 {
+		compatible = "sprd,sc9863-uart";
+		reg = <0 0x70000000 0 0x100>;
+		clock-names = "enable", "uart", "source";
+		clocks = <&apapb_gate CLK_UART0_EB>,
+		         <&ap_clk CLK_AP_UART0>,
+		         <&ext_26m>;
+		id = <0>;
+	};
+
+	serial@70100000 {
+	        compatible = "sprd,sc9863-uart";
+	        reg = <0 0x70100000 0 0x100>;
+	        clock-names = "enable", "uart", "source";
+	        clocks = <&apapb_gate CLK_UART1_EB>,
+	                 <&ap_clk CLK_AP_UART1>,
+	                 <&ext_26m>;
+	       id = <1>;
+	};
+
+	serial@70200000 {
+	        compatible = "sprd,sc9863-uart";
+	        reg = <0 0x70200000 0 0x100>;
+	        clock-names = "enable", "uart", "source";
+	        clocks = <&apapb_gate CLK_UART2_EB>,
+	                 <&ap_clk CLK_AP_UART2>,
+	                 <&ext_26m>;
+		id = <2>;
+	};
+};
+

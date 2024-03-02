@@ -1,0 +1,18 @@
+if TARGET_UMS9520_HAPS
+
+config SYS_BOARD
+	default "ums9520_haps"
+
+config SYS_VENDOR
+	default "spreadtrum"
+
+config SYS_SOC
+	default "qogirn6pro"
+
+config SYS_CONFIG_NAME
+	default "ums9520_haps"
+
+config SYS_TEXT_BASE
+	default 0xb5000000
+
+endif

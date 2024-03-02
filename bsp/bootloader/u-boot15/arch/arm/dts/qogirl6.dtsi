@@ -1,0 +1,186 @@
+/*
+ * Spreadtrum sharkl5Pro board DTS file
+ *
+ * Copyright (C) 2019, Spreadtrum Communications Inc.
+ *
+ * This file is licensed under a dual GPLv2 or X11 license.
+ */
+
+#include <dt-bindings/clock/sprd,ums9230-clk.h>
+
+#define BIT(x) (1 << (x))
+
+/ {
+	#address-cells = <2>;
+	#size-cells = <2>;
+
+	aliases {
+		i2c0 = &i2c0;
+		i2c1 = &i2c1;
+		i2c2 = &i2c2;
+		i2c3 = &i2c3;
+		i2c4 = &i2c4;
+		i2c5 = &i2c5;
+		i2c6 = &i2c6;
+		spi4 = &adi_bus;
+	};
+
+	soc: soc {
+		compatible = "simple-bus";
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		aon_apb_regs: syscon@64000000 {
+			compatible = "syscon";
+			reg = <0 0x64000000 0 0x3000>;
+		};
+
+		pmu_apb_regs: syscon@64020000 {
+			compatible = "syscon";
+			reg = <0 0x64020000 0 0x3000>;
+		};
+
+		aon {
+			compatible = "simple-bus";
+			#address-cells = <2>;
+			#size-cells = <2>;
+			ranges;
+
+			adi_bus: spi@64200000 {
+				compatible = "sprd,qogirl6-adi", "sprd,sharkl5pro-adi";
+				reg = <0 0x64200000 0 0x100000>;
+				sprd,hw-channels = <21 0x1864>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+		};
+
+		ap-apb {
+			compatible = "simple-bus";
+			#address-cells = <2>;
+			#size-cells = <2>;
+			ranges;
+
+			i2c0: i2c@0x200d0000 {
+				compatible = "sprd,qogirl6-i2c";
+				reg = <0 0x200d0000 0 0x100>;
+				clock-frequency = <400000>;
+				clock-names = "enable", "i2c", "source";
+				clocks = <&apapb_gate CLK_I2C0_EB>,
+					<&ap_clk CLK_AP_I2C0>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c1: i2c@0x200e0000 {
+				compatible = "sprd,qogirl6-i2c";
+				reg = <0 0x200e0000 0 0x100>;
+				clock-frequency = <400000>;
+				clock-names = "enable", "i2c", "source";
+				clocks = <&apapb_gate CLK_I2C1_EB>,
+					<&ap_clk CLK_AP_I2C1>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c2: i2c@0x200f0000 {
+				compatible = "sprd,qogirl6-i2c";
+				reg = <0 0x200f0000 0 0x100>;
+				clock-frequency = <400000>;
+				clock-names = "enable", "i2c", "source";
+				clocks = <&apapb_gate CLK_I2C2_EB>,
+					<&ap_clk CLK_AP_I2C2>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c3: i2c@0x20100000 {
+				compatible = "sprd,qogirl6-i2c";
+				reg = <0 0x20100000 0 0x100>;
+				clock-frequency = <400000>;
+				clock-names = "enable", "i2c", "source";
+				clocks = <&apapb_gate CLK_I2C3_EB>,
+					<&ap_clk CLK_AP_I2C3>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c4: i2c@0x20110000 {
+				compatible = "sprd,qogirl6-i2c";
+				reg = <0 0x20110000 0 0x100>;
+				clock-frequency = <400000>;
+				clock-names = "enable", "i2c", "source";
+				clocks = <&apapb_gate CLK_I2C4_EB>,
+					<&ap_clk CLK_AP_I2C4>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c5: i2c@0x20210000 {
+				compatible = "sprd,qogirl6-i2c";
+				reg = <0 0x20210000 0 0x100>;
+				clock-frequency = <400000>;
+				clock-names = "enable", "i2c", "source";
+				clocks = <&apapb_gate CLK_I2C5_EB>,
+					<&ap_clk CLK_AP_I2C5>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
+			i2c6: i2c@0x20220000 {
+				compatible = "sprd,qogirl6-i2c";
+				reg = <0 0x20220000 0 0x100>;
+				clock-frequency = <400000>;
+				clock-names = "enable", "i2c", "source";
+				clocks = <&apapb_gate CLK_I2C6_EB>,
+					<&ap_clk CLK_AP_I2C6>, <&ext_26m>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+		};
+
+		ap-ahb {
+			compatible = "simple-bus";
+			#address-cells = <2>;
+			#size-cells = <2>;
+			ranges;
+		};
+	};
+
+	ext_26m: ext-26m {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <26000000>;
+		clock-output-names = "ext-26m";
+	};
+
+	ext_32k: ext-32k {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <32768>;
+		clock-output-names = "ext-32k";
+	};
+
+	rco_100m: rco-100m {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <100000000>;
+		clock-output-names = "rco-100m";
+	};
+
+	dphy_273m: dphy-273m {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <273000000>;
+		clock-output-names = "dphy-273m";
+	};
+
+	dphy_204m8: dphy-204m8 {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <204800000>;
+		clock-output-names = "dphy-204m8";
+	};
+};
+

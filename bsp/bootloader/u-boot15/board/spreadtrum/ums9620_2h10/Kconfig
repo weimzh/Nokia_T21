@@ -1,0 +1,18 @@
+if TARGET_UMS9620_2H10
+
+config SYS_BOARD
+	default "ums9620_2h10"
+
+config SYS_VENDOR
+	default "spreadtrum"
+
+config SYS_SOC
+	default "qogirn6pro"
+
+config SYS_CONFIG_NAME
+	default "ums9620_2h10"
+
+config SYS_TEXT_BASE
+	default 0xb5000000
+
+endif

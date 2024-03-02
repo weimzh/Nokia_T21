@@ -1,0 +1,10 @@
+config DM_DSPBOOT
+	bool "Enable Driver Model for DSPBOOT drivers"
+	depends on DM
+	help
+	  Enable driver model for DSPBOOT access.
+
+config CMD_UBOOT_IT_DSPBOOT_TEST
+	bool "Sprd DSPBOOT driver test"
+	help
+	  This driver can be used to test the Sprd dspboot driver.

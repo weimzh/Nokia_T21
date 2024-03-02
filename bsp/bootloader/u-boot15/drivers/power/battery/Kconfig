@@ -1,0 +1,27 @@
+config DM_FGU
+	bool "Enable Driver Model for FGU drivers (UCLASS_FGU)"
+	depends on DM
+	---help---
+	This config enables the driver-model FGU support.
+	UCLASS_FGU - designed to provide an I/O interface for FGU devices.
+
+config FAN54015_CHARGE_IC
+	bool "allow to use the fan54015 charge IC"
+	---help---
+	This allows to use the fan54015 charge IC.
+
+config BQ2560X_CHARGE_IC
+	bool "allow to use the bq2560x charge IC"
+	---help---
+	This allows to use the bq2560x charge IC.
+
+config SGM41511_CHARGE_IC
+	bool "allow to use the sgm41511 charge IC"
+	---help---
+	This allows to use the sgm41511 charge IC.
+config SGM41513A_CHARGE_IC
+	bool "allow to use the SGM41513A charge IC"
+	---help---
+	This allows to use the SGM41513A charge IC.
+
+
